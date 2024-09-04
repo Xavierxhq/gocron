@@ -1,6 +1,6 @@
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
-github.com/go-co-op/gocron/v2 v2.2.10 h1:o6u+RfvT5rBa39gmsA5cqPPLXTa+Ai70m7EGgHQoXyg=
-github.com/go-co-op/gocron/v2 v2.2.10/go.mod h1:mZx3gMSlFnb97k3hRqX3+GdlG3+DUwTh6B8fnsTScXg=
+github.com/Xavierxhq/gocron/v2 v2.2.10 h1:o6u+RfvT5rBa39gmsA5cqPPLXTa+Ai70m7EGgHQoXyg=
+github.com/Xavierxhq/gocron/v2 v2.2.10/go.mod h1:mZx3gMSlFnb97k3hRqX3+GdlG3+DUwTh6B8fnsTScXg=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/jonboulle/clockwork v0.4.0 h1:p4Cf1aMWXnXAUh8lVfewRBx1zaTSYKrKMF2g3ST4RZ4=

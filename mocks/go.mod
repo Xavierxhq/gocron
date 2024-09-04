@@ -1,9 +1,9 @@
-module github.com/go-co-op/gocron/mocks/v2
+module github.com/Xavierxhq/gocron/mocks/v2
 
 go 1.20
 
 require (
-	github.com/go-co-op/gocron/v2 v2.2.10
+	github.com/Xavierxhq/gocron/v2 v2.2.10
 	github.com/google/uuid v1.6.0
 	go.uber.org/mock v0.4.0
 )

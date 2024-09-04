@@ -3,7 +3,7 @@
 ## Quick Start
 
 ```
-go get github.com/go-co-op/gocron/mocks/v2
+go get github.com/Xavierxhq/gocron/mocks/v2
 ```
 
 write a test
@@ -14,8 +14,8 @@ package main
 import (
 	"testing"
 
-	"github.com/go-co-op/gocron/mocks/v2"
-	"github.com/go-co-op/gocron/v2"
+	"github.com/Xavierxhq/gocron/mocks/v2"
+	"github.com/Xavierxhq/gocron/v2"
 	"go.uber.org/mock/gomock"
 )
 

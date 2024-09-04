@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	. "github.com/go-co-op/gocron/v2" // nolint:revive
+	. "github.com/Xavierxhq/gocron/v2" // nolint:revive
 	"github.com/google/uuid"
 	"github.com/jonboulle/clockwork"
 )
