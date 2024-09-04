@@ -93,7 +93,13 @@ func convertAtTimesToDateTime(atTimes AtTimes, location *time.Location) ([]time.
 }
 
 func ascendingTime(a, b time.Time) int {
-	return a.Compare(b)
+	if a.Before(b) {
+		return -1
+	}
+	if a.After(b) {
+		return 1
+	}
+	return 0
 }
 
 type waitGroupWithMutex struct {

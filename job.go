@@ -138,7 +138,7 @@ func (c cronJobDefinition) setup(j *internalJob, location *time.Location, now ti
 		cronSchedule, err = cron.ParseStandard(withLocation)
 	}
 	if err != nil {
-		return errors.Join(ErrCronJobParse, err)
+		return ErrCronJobParse
 	}
 	if cronSchedule.Next(now).IsZero() {
 		return ErrCronJobInvalid
