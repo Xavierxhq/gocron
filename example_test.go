@@ -33,7 +33,7 @@ func ExampleAfterJobRuns() {
 		),
 		WithEventListeners(
 			AfterJobRuns(
-				func(jobID uuid.UUID, jobName string) {
+				func(jobID uuid.UUID, jobName string, jobRunReturnParams []any) {
 					// do something after the job completes
 				},
 			),
@@ -54,7 +54,7 @@ func ExampleAfterJobRunsWithError() {
 		),
 		WithEventListeners(
 			AfterJobRunsWithError(
-				func(jobID uuid.UUID, jobName string, err error) {
+				func(jobID uuid.UUID, jobName string, jobRunReturnParams []any, err error) {
 					// do something when the job returns an error
 				},
 			),
@@ -630,12 +630,12 @@ func ExampleWithEventListeners() {
 		),
 		WithEventListeners(
 			AfterJobRuns(
-				func(jobID uuid.UUID, jobName string) {
+				func(jobID uuid.UUID, jobName string, jobRunReturnParams []any) {
 					// do something after the job completes
 				},
 			),
 			AfterJobRunsWithError(
-				func(jobID uuid.UUID, jobName string, err error) {
+				func(jobID uuid.UUID, jobName string, jobRunReturnParams []any, err error) {
 					// do something when the job returns an error
 				},
 			),

@@ -40,10 +40,10 @@ type internalJob struct {
 	startImmediately   bool
 	stopTime           time.Time
 	// event listeners
-	afterJobRuns          func(jobID uuid.UUID, jobName string)
+	afterJobRuns          func(jobID uuid.UUID, jobName string, jobRunReturnParams []any)
 	beforeJobRuns         func(jobID uuid.UUID, jobName string)
-	afterJobRunsWithError func(jobID uuid.UUID, jobName string, err error)
-	afterJobRunsWithPanic func(jobID uuid.UUID, jobName string, recoverData any)
+	afterJobRunsWithError func(jobID uuid.UUID, jobName string, jobRunReturnParams []any, err error)
+	afterJobRunsWithPanic func(jobID uuid.UUID, jobName string, jobRunReturnParams []any, recoverData any)
 	afterLockError        func(jobID uuid.UUID, jobName string, err error)
 
 	locker Locker
@@ -688,7 +688,7 @@ func BeforeJobRuns(eventListenerFunc func(jobID uuid.UUID, jobName string)) Even
 
 // AfterJobRuns is used to listen for when a job has run
 // without an error, and then run the provided function.
-func AfterJobRuns(eventListenerFunc func(jobID uuid.UUID, jobName string)) EventListener {
+func AfterJobRuns(eventListenerFunc func(jobID uuid.UUID, jobName string, jobRunReturnParams []any)) EventListener {
 	return func(j *internalJob) error {
 		if eventListenerFunc == nil {
 			return ErrEventListenerFuncNil
@@ -700,7 +700,7 @@ func AfterJobRuns(eventListenerFunc func(jobID uuid.UUID, jobName string)) Event
 
 // AfterJobRunsWithError is used to listen for when a job has run and
 // returned an error, and then run the provided function.
-func AfterJobRunsWithError(eventListenerFunc func(jobID uuid.UUID, jobName string, err error)) EventListener {
+func AfterJobRunsWithError(eventListenerFunc func(jobID uuid.UUID, jobName string, jobRunReturnParams []any, err error)) EventListener {
 	return func(j *internalJob) error {
 		if eventListenerFunc == nil {
 			return ErrEventListenerFuncNil
@@ -712,7 +712,7 @@ func AfterJobRunsWithError(eventListenerFunc func(jobID uuid.UUID, jobName strin
 
 // AfterJobRunsWithPanic is used to listen for when a job has run and
 // returned panicked recover data, and then run the provided function.
-func AfterJobRunsWithPanic(eventListenerFunc func(jobID uuid.UUID, jobName string, recoverData any)) EventListener {
+func AfterJobRunsWithPanic(eventListenerFunc func(jobID uuid.UUID, jobName string, jobRunReturnParams []any, recoverData any)) EventListener {
 	return func(j *internalJob) error {
 		if eventListenerFunc == nil {
 			return ErrEventListenerFuncNil

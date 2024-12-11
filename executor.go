@@ -371,7 +371,7 @@ func (e *executor) runJob(j internalJob, jIn jobIn) {
 	} else if j.locker != nil {
 		lock, err := j.locker.Lock(j.ctx, j.name)
 		if err != nil {
-			_ = callJobFuncWithParams(j.afterLockError, j.id, j.name, err)
+			_, _ = callJobFuncWithParams(j.afterLockError, j.id, j.name, err)
 			e.sendOutForRescheduling(&jIn)
 			e.incrementJobCounter(j, Skip)
 			return
@@ -380,14 +380,14 @@ func (e *executor) runJob(j internalJob, jIn jobIn) {
 	} else if e.locker != nil {
 		lock, err := e.locker.Lock(j.ctx, j.name)
 		if err != nil {
-			_ = callJobFuncWithParams(j.afterLockError, j.id, j.name, err)
+			_, _ = callJobFuncWithParams(j.afterLockError, j.id, j.name, err)
 			e.sendOutForRescheduling(&jIn)
 			e.incrementJobCounter(j, Skip)
 			return
 		}
 		defer func() { _ = lock.Unlock(j.ctx) }()
 	}
-	_ = callJobFuncWithParams(j.beforeJobRuns, j.id, j.name)
+	_, _ = callJobFuncWithParams(j.beforeJobRuns, j.id, j.name)
 
 	e.sendOutForRescheduling(&jIn)
 	select {
@@ -396,21 +396,21 @@ func (e *executor) runJob(j internalJob, jIn jobIn) {
 	}
 
 	startTime := time.Now()
-	err := e.callJobWithRecover(j)
+	returnParams, err := e.callJobWithRecover(j)
 	e.recordJobTiming(startTime, time.Now(), j)
 	if err != nil {
-		_ = callJobFuncWithParams(j.afterJobRunsWithError, j.id, j.name, err)
+		_, _ = callJobFuncWithParams(j.afterJobRunsWithError, j.id, j.name, returnParams, err)
 		e.incrementJobCounter(j, Fail)
 	} else {
-		_ = callJobFuncWithParams(j.afterJobRuns, j.id, j.name)
+		_, _ = callJobFuncWithParams(j.afterJobRuns, j.id, j.name, returnParams)
 		e.incrementJobCounter(j, Success)
 	}
 }
 
-func (e *executor) callJobWithRecover(j internalJob) (err error) {
+func (e *executor) callJobWithRecover(j internalJob) (returnParams []any, err error) {
 	defer func() {
 		if recoverData := recover(); recoverData != nil {
-			_ = callJobFuncWithParams(j.afterJobRunsWithPanic, j.id, j.name, recoverData)
+			_, _ = callJobFuncWithParams(j.afterJobRunsWithPanic, j.id, j.name, returnParams, recoverData)
 
 			// if panic is occurred, we should return an error
 			err = fmt.Errorf("%w from %v", ErrPanicRecovered, recoverData)

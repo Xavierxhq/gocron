@@ -11,16 +11,16 @@ import (
 	"golang.org/x/exp/slices"
 )
 
-func callJobFuncWithParams(jobFunc any, params ...any) error {
+func callJobFuncWithParams(jobFunc any, params ...any) (returnParams []any, returnErr error) {
 	if jobFunc == nil {
-		return nil
+		return nil, nil
 	}
 	f := reflect.ValueOf(jobFunc)
 	if f.IsZero() {
-		return nil
+		return nil, nil
 	}
 	if len(params) != f.Type().NumIn() {
-		return nil
+		return nil, nil
 	}
 	in := make([]reflect.Value, len(params))
 	for k, param := range params {
@@ -30,10 +30,12 @@ func callJobFuncWithParams(jobFunc any, params ...any) error {
 	for _, val := range returnValues {
 		i := val.Interface()
 		if err, ok := i.(error); ok {
-			return err
+			returnErr = err
+			continue
 		}
+		returnParams = append(returnParams, i)
 	}
-	return nil
+	return returnParams, returnErr
 }
 
 func requestJob(id uuid.UUID, ch chan jobOutRequest) *internalJob {

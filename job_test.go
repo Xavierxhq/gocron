@@ -426,21 +426,21 @@ func TestWithEventListeners(t *testing.T) {
 		{
 			"afterJobRuns",
 			[]EventListener{
-				AfterJobRuns(func(_ uuid.UUID, _ string) {}),
+				AfterJobRuns(func(_ uuid.UUID, _ string, _ []any) {}),
 			},
 			nil,
 		},
 		{
 			"afterJobRunsWithError",
 			[]EventListener{
-				AfterJobRunsWithError(func(_ uuid.UUID, _ string, _ error) {}),
+				AfterJobRunsWithError(func(_ uuid.UUID, _ string, _ []any, _ error) {}),
 			},
 			nil,
 		},
 		{
 			"afterJobRunsWithPanic",
 			[]EventListener{
-				AfterJobRunsWithPanic(func(_ uuid.UUID, _ string, _ any) {}),
+				AfterJobRunsWithPanic(func(_ uuid.UUID, _ string, _ []any, _ any) {}),
 			},
 			nil,
 		},
@@ -454,8 +454,8 @@ func TestWithEventListeners(t *testing.T) {
 		{
 			"multiple event listeners",
 			[]EventListener{
-				AfterJobRuns(func(_ uuid.UUID, _ string) {}),
-				AfterJobRunsWithError(func(_ uuid.UUID, _ string, _ error) {}),
+				AfterJobRuns(func(_ uuid.UUID, _ string, _ []any) {}),
+				AfterJobRunsWithError(func(_ uuid.UUID, _ string, _ []any, _ error) {}),
 				BeforeJobRuns(func(_ uuid.UUID, _ string) {}),
 				AfterLockError(func(_ uuid.UUID, _ string, _ error) {}),
 			},
@@ -655,9 +655,9 @@ func TestJob_PanicOccurred(t *testing.T) {
 			_ = 1 / a
 		}),
 		WithEventListeners(
-			AfterJobRunsWithPanic(func(_ uuid.UUID, _ string, recoverData any) {
+			AfterJobRunsWithPanic(func(_ uuid.UUID, _ string, _ []any, recoverData any) {
 				gotCh <- recoverData
-			}), AfterJobRunsWithError(func(_ uuid.UUID, _ string, err error) {
+			}), AfterJobRunsWithError(func(_ uuid.UUID, _ string, _ []any, err error) {
 				errCh <- err
 			}),
 		),

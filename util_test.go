@@ -81,7 +81,7 @@ func TestCallJobFuncWithParams(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			err := callJobFuncWithParams(tt.jobFunc, tt.params...)
+			_, err := callJobFuncWithParams(tt.jobFunc, tt.params...)
 			assert.Equal(t, tt.expectedErr, err)
 		})
 	}
